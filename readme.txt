@@ -1,0 +1,1 @@
+Commit 1: Redux Core
