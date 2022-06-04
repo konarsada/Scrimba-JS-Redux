@@ -1,27 +1,17 @@
 const redux = require("redux")
 
-function increment() {
+function changeCount(amount = 1) {
     return {
-        type: "INCREMENT"
-    }
-}
-
-function decrement() {
-    return {
-        type: "DECREMENT"
+        type: "CHANGE_COUNT",
+        payload: amount
     }
 }
 
 function reducer(state = {count: 0}, action) {
-    // return new state based on the incoming action.type
     switch(action.type) {
-        case "INCREMENT":
+        case "CHANGE_COUNT":
             return {
-                count: state.count + 1
-            }
-        case "DECREMENT":
-            return {
-                count: state.count - 1
+                count: state.count + action.payload
             }
         default:
             return state
@@ -33,8 +23,6 @@ store.subscribe(() => {
     console.log(store.getState())
 })
 
-store.dispatch(increment())
-store.dispatch(increment())
-store.dispatch(increment())
-store.dispatch(decrement())
-store.dispatch({type:"WEIRD"})
+store.dispatch(changeCount())
+store.dispatch(changeCount(5))
+store.dispatch(changeCount(-3))
