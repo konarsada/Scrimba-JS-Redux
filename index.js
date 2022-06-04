@@ -7,11 +7,29 @@ function changeCount(amount = 1) {
     }
 }
 
-function reducer(state = {count: 0}, action) {
+function addFavoriteThing(thing) {
+    return {
+        type: "ADD_FAVORITE_THING",
+        payload: thing
+    }
+}
+
+const initialState = {
+    count: 0,
+    favoriteThings: []
+}
+
+function reducer(state = initialState, action) {
     switch(action.type) {
         case "CHANGE_COUNT":
             return {
+                ...state,
                 count: state.count + action.payload
+            }
+        case "ADD_FAVORITE_THING":
+            return {
+                ...state,
+                favoriteThings: [...state.favoriteThings, action.payload]
             }
         default:
             return state
@@ -23,6 +41,6 @@ store.subscribe(() => {
     console.log(store.getState())
 })
 
-store.dispatch(changeCount())
-store.dispatch(changeCount(5))
-store.dispatch(changeCount(-3))
+store.dispatch(changeCount(2))
+store.dispatch(addFavoriteThing("Raindrops on roses"))
+store.dispatch(addFavoriteThing("Whiskers on kittens"))
