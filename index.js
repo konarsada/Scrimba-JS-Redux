@@ -1,60 +1,43 @@
-const redux = require("redux")
+import store from "./redux"
+import {changeCount} from "./redux/count"
+import {addFavoriteThing, removeFavoriteThing} from "./redux/favoriteThings"
+import {setYouTubeTitle, incrementViewCount, upvoteVideo, downvoteVideo} from "./redux/youTubeVideo"
 
-function changeCount(amount = 1) {
-    return {
-        type: "CHANGE_COUNT",
-        payload: amount
-    }
-}
+store.dispatch(changeCount(42))
+store.dispatch(addFavoriteThing("Door bells"))
+store.dispatch(addFavoriteThing("Sleigh bells"))
+store.dispatch(removeFavoriteThing("door bells"))
+store.dispatch(setYouTubeTitle("Learning Redux is Fun!"))
+store.dispatch(incrementViewCount())
+store.dispatch(upvoteVideo())
+store.dispatch(incrementViewCount())
+store.dispatch(upvoteVideo())
+store.dispatch(incrementViewCount())
+store.dispatch(upvoteVideo())
+store.dispatch(downvoteVideo())
 
-function addFavoriteThing(thing) {
-    return {
-        type: "ADD_FAVORITE_THING",
-        payload: thing
-    }
-}
+/*
+{count: 42, favoriteThings: [], youTubeVideo: {title: "", viewCount: 0, votes: {up: 0, down: 0}}}
 
-function removeFavoriteThing(thing) {
-    return {
-        type: "REMOVE_FAVORITE_THING",
-        payload: thing
-    }
-}
+{count: 42, favoriteThings: ["Door bells"], youTubeVideo: {title: "", viewCount: 0, votes: {up: 0, down: 0}}}
 
-const initialState = {
-    count: 0,
-    favoriteThings: []
-}
+{count: 42, favoriteThings: ["Door bells", "Sleigh bells"], youTubeVideo: {title: "", viewCount: 0, votes: {up: 0, down: 0}}}
 
-function reducer(state = initialState, action) {
-    switch(action.type) {
-        case "CHANGE_COUNT":
-            return {
-                ...state,
-                count: state.count + action.payload
-            }
-        case "ADD_FAVORITE_THING":
-            return {
-                ...state,
-                favoriteThings: [...state.favoriteThings, action.payload]
-            }
-        case "REMOVE_FAVORITE_THING":
-            const updatedArr = state.favoriteThings.filter(thing => thing.toLowerCase() !== action.payload.toLowerCase())
-            return {
-                ...state,
-                favoriteThings: updatedArr
-            }
-        default:
-            return state
-    }
-}
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "", viewCount: 0, votes: {up: 0, down: 0}}}
 
-const store = redux.createStore(reducer)
-store.subscribe(() => {
-    console.log(store.getState())
-})
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 0, votes: {up: 0, down: 0}}}
 
-store.dispatch(addFavoriteThing("Raindrops on roses"))
-store.dispatch(addFavoriteThing("Whiskers on kittens"))
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 1, votes: {up: 0, down: 0}}}
 
-store.dispatch(removeFavoriteThing("raindrops on roses"))
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 1, votes: {up: 1, down: 0}}}
+
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 2, votes: {up: 1, down: 0}}}
+
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 2, votes: {up: 2, down: 0}}}
+
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 3, votes: {up: 2, down: 0}}}
+
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 3, votes: {up: 3, down: 0}}}
+
+{count: 42, favoriteThings: ["Sleigh bells"], youTubeVideo: {title: "Learning Redux is Fun!", viewCount: 3, votes: {up: 3, down: 1}}}
+*/
