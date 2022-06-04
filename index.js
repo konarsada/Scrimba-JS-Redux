@@ -14,6 +14,13 @@ function addFavoriteThing(thing) {
     }
 }
 
+function removeFavoriteThing(thing) {
+    return {
+        type: "REMOVE_FAVORITE_THING",
+        payload: thing
+    }
+}
+
 const initialState = {
     count: 0,
     favoriteThings: []
@@ -31,6 +38,12 @@ function reducer(state = initialState, action) {
                 ...state,
                 favoriteThings: [...state.favoriteThings, action.payload]
             }
+        case "REMOVE_FAVORITE_THING":
+            const updatedArr = state.favoriteThings.filter(thing => thing.toLowerCase() !== action.payload.toLowerCase())
+            return {
+                ...state,
+                favoriteThings: updatedArr
+            }
         default:
             return state
     }
@@ -41,6 +54,7 @@ store.subscribe(() => {
     console.log(store.getState())
 })
 
-store.dispatch(changeCount(2))
 store.dispatch(addFavoriteThing("Raindrops on roses"))
 store.dispatch(addFavoriteThing("Whiskers on kittens"))
+
+store.dispatch(removeFavoriteThing("raindrops on roses"))
